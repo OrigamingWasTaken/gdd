@@ -23,7 +23,7 @@ jobs:
       - name: Extract version from main.typ
         id: version
         run: |
-          VERSION=$(grep -oP 'gdd-version:\s*"\K[^"]+' src/main.typ)
+          VERSION=$(grep -oP '#let gdd-version\s*=\s*"\K[^"]+' src/main.typ)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Detected version: $VERSION"
 
