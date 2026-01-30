@@ -1,12 +1,12 @@
 # Skell - Game Design Document
 
-[![Version](https://img.shields.io/badge/version-0.2-blue)](https://github.com/OrigamingWasTaken/gdd/releases/tag/v0.2)
+[![Version](https://img.shields.io/badge/version-0.3-blue)](https://github.com/OrigamingWasTaken/gdd/releases/tag/v0.3)
 
 Travail de Maturité 2026
 
 ## Téléchargement
 
-**Dernière version**: [v0.2](https://github.com/OrigamingWasTaken/gdd/releases/tag/v0.2)
+**Dernière version**: [v0.3](https://github.com/OrigamingWasTaken/gdd/releases/tag/v0.3)
 
 ## Structure
 
@@ -47,4 +47,5 @@ Push sur `main` → GitHub Actions compile le PDF et crée automatiquement une r
 |---------|------|-----|
 | v0.1 | 2025-01-30 | [Télécharger](https://github.com/OrigamingWasTaken/gdd/releases/download/v0.1/gdd-skell-v0.1.pdf) |
 | v0.2 | 2026-01-30 | [Télécharger](https://github.com/OrigamingWasTaken/gdd/releases/download/v0.2/gdd-skell-v0.2.pdf) |
+| v0.3 | 2026-01-30 | [Télécharger](https://github.com/OrigamingWasTaken/gdd/releases/download/v0.3/gdd-skell-v0.3.pdf) |
 <!-- VERSIONS -->
