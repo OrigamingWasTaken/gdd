@@ -36,9 +36,10 @@ jobs:
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Compile PDF
+      - name: Compile PDFs
         run: |
           typst compile src/main.typ gdd-skell-v${{ steps.version.outputs.version }}.pdf
+          typst compile src/plan.typ plan-skell-v${{ steps.version.outputs.version }}.pdf
 
       - name: Update README with latest version
         if: steps.check_tag.outputs.exists == 'false'
@@ -72,7 +73,9 @@ jobs:
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: GDD v${{ steps.version.outputs.version }}
-          files: gdd-skell-v${{ steps.version.outputs.version }}.pdf
+          files: |
+            gdd-skell-v${{ steps.version.outputs.version }}.pdf
+            plan-skell-v${{ steps.version.outputs.version }}.pdf
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

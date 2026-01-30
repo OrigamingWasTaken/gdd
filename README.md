@@ -13,7 +13,8 @@ Travail de Maturité 2026
 ```
 src/
 ├── template.typ    # Styles et fonctions (ne pas modifier)
-└── main.typ        # Contenu du GDD (modifier ici)
+├── main.typ        # Contenu du GDD (modifier ici)
+└── plan.typ        # Plan de développement (modifier ici)
 ```
 
 ## Compilation locale
@@ -22,11 +23,15 @@ src/
 # Installer Typst
 # https://github.com/typst/typst#installation
 
-# Compiler
+# Compiler le GDD
 typst compile src/main.typ gdd.pdf
+
+# Compiler le Plan
+typst compile src/plan.typ plan.pdf
 
 # Watch mode (recompile à chaque sauvegarde)
 typst watch src/main.typ gdd.pdf
+typst watch src/plan.typ plan.pdf
 ```
 
 ## Versioning
