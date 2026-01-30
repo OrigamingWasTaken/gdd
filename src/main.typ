@@ -4,7 +4,7 @@
 
 #import "template.typ": *
 
-#let gdd-version = "0.3"
+#let gdd-version = "0.4"
 
 #show: gdd.with(
   title: "Skell",
