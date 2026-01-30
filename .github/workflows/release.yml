@@ -1,0 +1,78 @@
+name: Build and Release GDD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'refs.bib'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v3
+
+      - name: Extract version from main.typ
+        id: version
+        run: |
+          VERSION=$(grep -oP 'gdd-version:\s*"\K[^"]+' src/main.typ)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Detected version: $VERSION"
+
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Compile PDF
+        run: |
+          typst compile src/main.typ gdd-skell-v${{ steps.version.outputs.version }}.pdf
+
+      - name: Update README with latest version
+        if: steps.check_tag.outputs.exists == 'false'
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          DATE=$(date +%Y-%m-%d)
+          REPO="${{ github.repository }}"
+          
+          # Update badge
+          sed -i "s|\[!\[Version\].*|\[!\[Version\](https://img.shields.io/badge/version-${VERSION}-blue)\](https://github.com/${REPO}/releases/tag/v${VERSION})|" README.md
+          
+          # Update "Dernière version" link
+          sed -i "s|\*\*Dernière version.*|**Dernière version**: [v${VERSION}](https://github.com/${REPO}/releases/tag/v${VERSION})|" README.md
+          
+          # Add new version to history table (before <!-- VERSIONS --> marker)
+          NEW_LINE="| v${VERSION} | ${DATE} | [Télécharger](https://github.com/${REPO}/releases/download/v${VERSION}/gdd-skell-v${VERSION}.pdf) |"
+          sed -i "s|<!-- VERSIONS -->|${NEW_LINE}\n<!-- VERSIONS -->|" README.md
+
+      - name: Commit README changes
+        if: steps.check_tag.outputs.exists == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --staged --quiet || git commit -m "docs: update version badge to v${{ steps.version.outputs.version }}"
+          git push
+
+      - name: Create Release
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: GDD v${{ steps.version.outputs.version }}
+          files: gdd-skell-v${{ steps.version.outputs.version }}.pdf
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
