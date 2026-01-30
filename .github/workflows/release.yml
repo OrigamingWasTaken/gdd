@@ -48,14 +48,14 @@ jobs:
           REPO="${{ github.repository }}"
           
           # Update badge
-          sed -i "s|\[!\[Version\].*|\[!\[Version\](https://img.shields.io/badge/version-${VERSION}-blue)\](https://github.com/${REPO}/releases/tag/v${VERSION})|" README.md
+          sed -i "s#\[!\[Version\].*#\[!\[Version\](https://img.shields.io/badge/version-${VERSION}-blue)\](https://github.com/${REPO}/releases/tag/v${VERSION})#" README.md
           
           # Update "Dernière version" link
-          sed -i "s|\*\*Dernière version.*|**Dernière version**: [v${VERSION}](https://github.com/${REPO}/releases/tag/v${VERSION})|" README.md
+          sed -i "s#\*\*Dernière version.*#**Dernière version**: [v${VERSION}](https://github.com/${REPO}/releases/tag/v${VERSION})#" README.md
           
           # Add new version to history table (before <!-- VERSIONS --> marker)
           NEW_LINE="| v${VERSION} | ${DATE} | [Télécharger](https://github.com/${REPO}/releases/download/v${VERSION}/gdd-skell-v${VERSION}.pdf) |"
-          sed -i "s|<!-- VERSIONS -->|${NEW_LINE}\n<!-- VERSIONS -->|" README.md
+          sed -i "s#<!-- VERSIONS -->#${NEW_LINE}\n<!-- VERSIONS -->#" README.md
 
       - name: Commit README changes
         if: steps.check_tag.outputs.exists == 'false'
