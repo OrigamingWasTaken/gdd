@@ -4,7 +4,7 @@
 
 #import "template.typ": *
 
-#let gdd-version = "0.2"
+#let gdd-version = "0.3"
 
 #show: gdd.with(
   title: "Skell",
@@ -86,7 +86,7 @@ Chaque chapitre suit une progression narrative liée au gameplay.
   #align(center)[
     Traverser la zone #h(8pt) $arrow$ #h(8pt)
     Affronter le boss #h(8pt) $arrow$ #h(8pt)
-    *Retrouver une émotion* #h(8pt) $arrow$ #h(8pt)
+    *Retrouver une émotion* #h(8pt) $bold(arrow)$ #h(8pt)
     Débloquer une capacité
   ]
 ]
